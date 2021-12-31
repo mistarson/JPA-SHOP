@@ -36,7 +36,7 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Member findOne(Long memberId) {
-        return memberRepository.findOne(memberId);
+    public Member findOne(Long memberId) throws Exception {
+        return memberRepository.findById(memberId).orElseThrow(()-> new Exception("Member set null"));
     }
 }

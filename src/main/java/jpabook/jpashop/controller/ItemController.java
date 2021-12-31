@@ -50,7 +50,7 @@ public class ItemController {
     }
 
     @GetMapping("/items/{itemId}/edit")
-    public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
+    public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) throws Exception {
         Book item = (Book) itemService.findOne(itemId);
 
         BookForm form = new BookForm();

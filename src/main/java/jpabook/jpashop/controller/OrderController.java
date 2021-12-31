@@ -37,7 +37,7 @@ public class OrderController {
     @PostMapping("/order")
     public String create(@RequestParam Long memberId,
                          @RequestParam Long itemId,
-                         @RequestParam int count) {
+                         @RequestParam int count) throws Exception {
 
         orderService.order(memberId, itemId, count);
 
@@ -53,7 +53,7 @@ public class OrderController {
     }
 
     @PostMapping("/orders/{orderId}/cancel")
-    public String cancelOrder(@PathVariable Long orderId) {
+    public String cancelOrder(@PathVariable Long orderId) throws Exception {
         orderService.cancelOrder(orderId);
         return "redirect:/orders";
     }
