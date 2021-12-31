@@ -44,6 +44,8 @@ public class OrderService {
         //주문 저장
         orderRepository.save(order);
 
+        System.out.println("");
+
         return order.getId();
     }
 
