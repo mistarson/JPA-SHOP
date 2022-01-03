@@ -2,6 +2,7 @@ package jpabook.jpashop.controller;
 
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.form.MemberForm;
 import jpabook.jpashop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -26,17 +28,14 @@ public class MemberController {
     }
 
     @PostMapping("/members/new")
-    public String create(@Valid MemberForm memberForm, BindingResult result) {
+    public String create(@Valid MemberForm memberForm, BindingResult bindingResult) {
 
-        if (result.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "members/createMembersForm";
         }
-        Address address = new Address(memberForm.getCity(), memberForm.getStreet(), memberForm.getZipcode());
-        Member member = new Member();
-        member.setName(memberForm.getName());
-        member.setAddress(address);
 
-        memberService.join(member);
+        System.out.println("memberForm = " + memberForm);
+        memberService.join(memberForm);
 
         return "redirect:/";
     }
@@ -48,4 +47,9 @@ public class MemberController {
 
         return "members/memberList";
     }
+
+
+
+
+
 }
