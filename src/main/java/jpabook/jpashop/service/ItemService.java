@@ -27,4 +27,6 @@ public class ItemService {
     public Item findOne(Long id) throws Exception {
         return itemRepository.findById(id).orElseThrow(()-> new Exception("item set null"));
     }
+
+//    public Item updateItem()
 }

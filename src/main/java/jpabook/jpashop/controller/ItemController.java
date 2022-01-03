@@ -70,6 +70,7 @@ public class ItemController {
     public String updateItem(@PathVariable("itemId") Long itemId, @ModelAttribute BookForm form) {
 
         // 업데이트 메서드를 리포지토리나 서비스에서 만들어서 사용 (아래 코드처럼 어설프게 엔티티 생성 X)
+
         Book book = new Book();
         book.setId(form.getId());
         book.setName(form.getName());
