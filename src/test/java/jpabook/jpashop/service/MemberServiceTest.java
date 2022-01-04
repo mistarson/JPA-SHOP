@@ -1,11 +1,14 @@
 package jpabook.jpashop.service;
 
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.form.MemberForm;
 import jpabook.jpashop.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,43 +17,51 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class MemberServiceTest {
 
+
+    @Autowired EntityManager em;
     @Autowired MemberService memberService;
     @Autowired MemberRepository memberRepository;
 
-//    @Test
-//    void 회원가입() throws Exception {
-//        //given
-//        Member member = new Member();
-//        member.setName("KIM");
-//
-//        //when
-//        Long savedId = memberService.join(member);
-//        Member findMember = memberService.findById(savedId);
-//
-//        //then
-//        assertThat(member).isEqualTo(findMember);
-//    }
-//
-//    @Test
-//    void 중복_회원_예외() {
-//        //given
-//        Member member1 = new Member();
-//        member1.setName("KIM");
-//        member1.setLoginId("123");
-//        member1.setPassword("123");
-//
-//        Member member2 = new Member();
-//        member2.setName("KIM");
-//        member2.setLoginId("123");
-//        member2.setPassword("123");
-//
-//        //when
-//        memberService.join(member1);
-//
-//        //then
-//        assertThrows(IllegalStateException.class, ()->memberService.join(member2));
-//
-//    }
+    @Test
+    void 회원가입() throws Exception {
+        //given
+        MemberForm memberForm = new MemberForm();
+        memberForm.setName("KIM");
+        memberForm.setLoginId("123");
+        memberForm.setPassword("123");
+        Member member = memberService.DtoToEntity(memberForm);
+
+        //when
+        Long savedId = memberService.join(memberForm);
+
+
+        Member findMember = memberService.findByLoginId(member.getLoginId());
+
+        //then
+        assertThat(member.getLoginId()).isEqualTo(findMember.getLoginId());
+    }
+
+    @Test
+    void 중복_회원_예외() {
+        //given
+        MemberForm memberForm = new MemberForm();
+        memberForm.setName("KIM");
+        memberForm.setLoginId("123");
+        memberForm.setPassword("123");
+
+
+        MemberForm memberForm1 = new MemberForm();
+        memberForm1.setName("LEE");
+        memberForm1.setLoginId("123");
+        memberForm1.setPassword("123");
+
+        //when
+        memberService.join(memberForm);
+
+        //then
+        assertThrows(IllegalStateException.class, ()->memberService.join(memberForm1));
+
+    }
 
 
 }

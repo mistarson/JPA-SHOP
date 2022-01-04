@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -35,6 +36,10 @@ public class MemberService {
         return memberRepository.findById(memberId).orElseThrow(() -> new Exception("Member set null"));
     }
 
+    public Member findByLoginId(String loginId) throws Exception {
+        return memberRepository.findByLoginId(loginId).orElseThrow(() -> new Exception("Member set null"));
+    }
+
     @Transactional
     public Long join(MemberForm memberForm) {
 
@@ -47,13 +52,13 @@ public class MemberService {
 
     private void validateDuplicateLoginId(String loinId) {
         //EXCEPTION
-        List<Member> findMembers = memberRepository.findByLoginId(loinId);
-        if (!findMembers.isEmpty()) {
+        Optional<Member> findMember = memberRepository.findByLoginId(loinId);
+        if (!findMember.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
 
-    private Member DtoToEntity(MemberForm memberForm) {
+    public Member DtoToEntity(MemberForm memberForm) {
         Member member = new Member();
         member.setName(memberForm.getName());
         member.setLoginId(memberForm.getLoginId());

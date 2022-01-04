@@ -35,7 +35,9 @@ class MemberRepositoryTest {
         em.flush();
         em.clear();
 
-        assertThat(member.getLoginId()).isEqualTo(memberRepository.findByLoginId("thsckdgus0").get(0).getLoginId());
+        Member findMember = memberRepository.findByLoginId("thsckdgus0").get();
+
+        assertThat(member.getLoginId()).isEqualTo(findMember.getLoginId());
 
     }
 }
